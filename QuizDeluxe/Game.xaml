@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuizDeluxe"
         mc:Ignorable="d"
-        Title="Game" Height="450" Width="800">
+        Title="Quiz Deluxe" Height="720" Width="1280" ResizeMode="NoResize">
+    <Window.Background>
+        <ImageBrush ImageSource="gradient_zelenyj_tekstura_131365_1280x720.jpg"/>
+    </Window.Background>
     <Grid>
         
     </Grid>
