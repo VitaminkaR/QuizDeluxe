@@ -10,24 +10,31 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace QuizDeluxe
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для Game.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Game : Window
     {
-        public MainWindow()
+        private Client client;
+
+        public Game(string ip)
         {
             InitializeComponent();
-            Connect_Button.Click += (object sender, RoutedEventArgs e) =>
-            {
-                new Game(IP_TextBox.Text).Show();
-                this.Close();
-            };
+
+            client = new Client(Handler);
+            client.Connect(ip);
+        }
+
+
+
+        // обработка данных клиента
+        public void Handler(string data)
+        {
+
         }
     }
 }
