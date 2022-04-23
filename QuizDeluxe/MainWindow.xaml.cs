@@ -20,9 +20,24 @@ namespace QuizDeluxe
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Client client;
+
+
+
         public MainWindow()
         {
             InitializeComponent();
+
+            client = new Client(Handler);
+            Connect_Button.Click += (object sender, RoutedEventArgs e) => client.Connect(IP_TextBox.Text);
+        }
+
+
+
+        // обработка данных клиента
+        public void Handler(string data)
+        {
+
         }
     }
 }

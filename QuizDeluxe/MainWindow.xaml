@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuizDeluxe"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="QuizDeluxe" Height="450" Width="800" ResizeMode="NoResize" Background="#FF8BFFE4">
     <Grid>
-        
+        <TextBox x:Name="IP_TextBox" HorizontalAlignment="Left" Height="23" Margin="664,10,0,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="Connect_Button" Content="Connect" HorizontalAlignment="Left" Margin="664,38,0,0" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>
