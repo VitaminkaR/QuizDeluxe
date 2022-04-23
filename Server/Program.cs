@@ -8,8 +8,29 @@ namespace Server
 {
     class Program
     {
-        static void Main(string[] args)
+        private static Server server;
+
+        [STAThread]
+        static private void Main()
         {
+            string _ip = Console.ReadLine();
+            if (_ip == "") _ip = "127.0.0.1";
+            server = new Server(_ip);
+            Commands();
+        }
+
+        static private void Commands()
+        {
+            while (true)
+            {
+                string command = Console.ReadLine();
+                if(command == "exit")
+                {
+                    server.Stop();
+                    break;
+                }
+            }
+            Console.ReadKey();
         }
     }
 }
