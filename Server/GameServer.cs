@@ -7,6 +7,8 @@ namespace Server
         // игровая часть
         // ники игроков
         public List<string> players;
+        // таблица вопросов
+        public Table table;
 
 
 
@@ -14,6 +16,9 @@ namespace Server
         public GameServer(string ip = "127.0.0.1", int port = 28288) : base(ip, port)
         {
             players = new List<string>();
+            table = new Table();
+            table.Load("table\\standart.txt");
+            "table load".Log();
         }
 
 

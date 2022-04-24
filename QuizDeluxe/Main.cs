@@ -29,8 +29,6 @@ namespace QuizDeluxe
 
         public List<string> players;
 
-        // таблица вопросов
-        public Table table;
         // кнопки для ответов
         public Button answer1;
         public Button answer2;
@@ -62,9 +60,6 @@ namespace QuizDeluxe
             players = new List<string>();
 
             question = "";
-
-            table = new Table();
-            table.Load("table\\standart.txt");
 
             client = new Client(Handler);
             client.Connect(ip, PORT);

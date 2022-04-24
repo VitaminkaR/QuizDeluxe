@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuizDeluxe.Utils;
+using Server.Utils;
 
-namespace QuizDeluxe
+namespace Server
 {
     public class Table
     {

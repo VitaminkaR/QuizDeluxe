@@ -48,6 +48,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="Table.cs" />
+    <Compile Include="Utils\FileWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
