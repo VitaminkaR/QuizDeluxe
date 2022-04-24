@@ -29,7 +29,9 @@ namespace Server
         {
             Random rand = new Random();
             int i = rand.Next(0, Questions.Count);
-            return Questions[i];
+            string @out = Questions[i];
+            Questions.Remove(@out);
+            return @out;
         }
     }
 }

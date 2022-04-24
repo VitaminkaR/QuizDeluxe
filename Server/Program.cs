@@ -46,6 +46,9 @@ namespace Server
                     foreach (string ques in server.table.Questions)
                         ques.Log();
                 }
+
+                if (command == "step")
+                    server.step.Log();
             }
             Console.ReadKey();
         }

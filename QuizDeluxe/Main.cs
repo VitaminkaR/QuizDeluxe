@@ -33,6 +33,8 @@ namespace QuizDeluxe
         public Button[] answers;
         // поле вопроса
         public string question;
+        // никнейм хода
+        public string step;
 
         public Main(string ip, string nick)
         {
@@ -82,6 +84,7 @@ namespace QuizDeluxe
                 answers[i].Text = "-";
                 answers[i].TextColor = Color.White;
                 answers[i].font = font;
+                answers[i].Click += (Button source) => { if (step == name) client.Send("ans=" + source.Text); };
             }
         }
 
@@ -99,15 +102,17 @@ namespace QuizDeluxe
         {
             GraphicsDevice.Clear(Color.Black);
 
-            string playersTable = "Players:\n";
-            foreach (string nick in players)
-            {
-                playersTable += $"{nick}\n";
-            }
+
 
             _spriteBatch.Begin();
             _spriteBatch.Draw(background, Vector2.Zero, Color.White);
-            _spriteBatch.DrawString(font, playersTable, Vector2.Zero, Color.White);
+            _spriteBatch.DrawString(font, "[Players]", Vector2.Zero, Color.White);
+
+            for (int i = 0; i < players.Count; i++)
+            {
+                _spriteBatch.DrawString(font, players[i], new Vector2(0, 48 + 32 * i), players[i] == step ? Color.Green : Color.White);
+            }
+
             _spriteBatch.DrawString(font, question, new Vector2(528, 64), Color.White);
             _spriteBatch.End();
 
@@ -115,7 +120,7 @@ namespace QuizDeluxe
         }
 
 
-        
+
         //обработчик
         private void Handler(string[] data)
         {
@@ -130,7 +135,7 @@ namespace QuizDeluxe
 
                 if (com == "connect")
                     client.Send("request_nick=x");
-                if(com == "nicknames")
+                if (com == "nicknames")
                 {
                     string[] nicks = param.Split('|');
                     foreach (string nick in nicks)
@@ -145,7 +150,7 @@ namespace QuizDeluxe
 
 
 
-                if(com == "q")
+                if (com == "q")
                 {
                     string[] a = param.Split('|');
                     question = a[0];
@@ -153,6 +158,19 @@ namespace QuizDeluxe
                     {
                         answers[j].Text = a[1 + j];
                     }
+                }
+
+
+
+                if (com == "step")
+                {
+                    step = param;
+                }
+
+
+                if (com == "check")
+                {
+                    "true".Log();
                 }
             }
         }

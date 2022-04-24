@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using System.Linq;
+using System;
 
 namespace Server
 {
@@ -11,6 +14,9 @@ namespace Server
         public Table table;
         // правильный ответ
         public string answer;
+        // никнейм игрока, который ходит
+        public string step;
+        public int stepIndex;
 
 
 
@@ -51,6 +57,17 @@ namespace Server
                     players.Remove(param);
                     SendPacket(source, sender);
                 }
+                if(com == "ans")
+                {
+                    if(param == answer)
+                    {
+                        SendPacket("check=true");
+                    }
+                    else
+                        SendPacket("check=false");
+
+                    SetQues();
+                }
             }
 
             base.Handler(data, source, sender);
@@ -70,9 +87,24 @@ namespace Server
 
         public void SetQues()
         {
-            string q = "q=" + table.Get();
-            answer = q.Split('|')[1];
+            List<string> x = table.Get().Split('|').ToList<string>();
+            string q = "q=" + x[0] + '|';
+            answer = x[1];
+            x.Remove(x[0]);
+            for (int i = 0; i < 4; i++)
+            {
+                int z = new Random().Next(0, x.Count);
+                q += x[z] + '|';
+                x.RemoveAt(z);
+            }
+            
             SendPacket(q);
+            Thread.Sleep(100);
+            step = players[stepIndex];
+            stepIndex += 1;
+            if (stepIndex == players.Count)
+                stepIndex = 0;
+            SendPacket($"step={step}");
         }
     }
 }

@@ -14,7 +14,7 @@ namespace QuizDeluxe.UI
         private bool focus;
         private bool press;
 
-        public delegate void ClickD();
+        public delegate void ClickD(Button source);
         public event ClickD Click;
 
         public string Text { get; set; }
@@ -43,7 +43,7 @@ namespace QuizDeluxe.UI
             if (focus && ms.LeftButton == ButtonState.Pressed && !press)
             {
                 press = true;
-                Click?.Invoke();
+                Click?.Invoke(this);
             }
             if (ms.LeftButton == ButtonState.Released)
                 press = false;
