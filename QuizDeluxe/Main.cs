@@ -30,10 +30,7 @@ namespace QuizDeluxe
         public List<string> players;
 
         // кнопки для ответов
-        public Button answer1;
-        public Button answer2;
-        public Button answer3;
-        public Button answer4;
+        public Button[] answers;
         // поле вопроса
         public string question;
 
@@ -60,6 +57,7 @@ namespace QuizDeluxe
             players = new List<string>();
 
             question = "";
+            answers = new Button[4];
 
             client = new Client(Handler);
             client.Connect(ip, PORT);
@@ -77,10 +75,14 @@ namespace QuizDeluxe
             background = Content.Load<Texture2D>("background");
             buttonSprite = Content.Load<Texture2D>("button");
 
-            answer1 = new Button(this, 528, 256, buttonSprite);
-            answer2 = new Button(this, 528, 320, buttonSprite);
-            answer3 = new Button(this, 528, 384, buttonSprite);
-            answer4 = new Button(this, 528, 448, buttonSprite);
+            for (int i = 0; i < answers.Length; i++)
+            {
+                answers[i] = new Button(this, 528, 256 + 96 * i, buttonSprite);
+                answers[i].Size = 1;
+                answers[i].Text = "-";
+                answers[i].TextColor = Color.White;
+                answers[i].font = font;
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -147,6 +149,10 @@ namespace QuizDeluxe
                 {
                     string[] a = param.Split('|');
                     question = a[0];
+                    for (int j = 0; j < 4; j++)
+                    {
+                        answers[j].Text = a[1 + j];
+                    }
                 }
             }
         }

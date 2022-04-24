@@ -17,6 +17,11 @@ namespace QuizDeluxe.UI
         public delegate void ClickD();
         public event ClickD Click;
 
+        public string Text { get; set; }
+        public SpriteFont font;
+        public int Size { get; set; }
+        public Color TextColor { get; set; }
+
         public Button(Game game, int x, int y, Texture2D texture) : base(game)
         {
             game.Components.Add(this);
@@ -48,12 +53,13 @@ namespace QuizDeluxe.UI
 
         public override void Draw(GameTime gameTime)
         {
-            Color color = Color.White;
+            Color color = Color.Gray;
             if (focus && !press)
-                color = Color.Gray;
+                color = Color.DarkGray;
 
             spriteBatch.Begin();
             spriteBatch.Draw(texture, pos, color);
+            spriteBatch.DrawString(font, Text, new Vector2(pos.X + 16, pos.Y + texture.Height / 2 - Size * 16), Color.White, 0, Vector2.Zero, Size, SpriteEffects.None, 0);
             spriteBatch.End();
 
             base.Draw(gameTime);
