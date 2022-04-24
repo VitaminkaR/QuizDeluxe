@@ -8,14 +8,14 @@ namespace Server
 {
     class Program
     {
-        private static Server server;
+        private static GameServer server;
 
         [STAThread]
         static private void Main()
         {
             string _ip = Console.ReadLine();
             if (_ip == "") _ip = "127.0.0.1";
-            server = new Server(_ip);
+            server = new GameServer(_ip);
             Commands();
         }
 

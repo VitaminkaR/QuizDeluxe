@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using QuizDeluxe.UI;
 using System.Collections.Generic;
 
 namespace QuizDeluxe
@@ -16,6 +17,7 @@ namespace QuizDeluxe
 
         static public SpriteFont font;
         internal Texture2D background;
+        internal Texture2D buttonSprite;
 
         // singleton
         static public Main game;
@@ -26,6 +28,16 @@ namespace QuizDeluxe
         public string name;
 
         public List<string> players;
+
+        // таблица вопросов
+        public Table table;
+        // кнопки для ответов
+        public Button answer1;
+        public Button answer2;
+        public Button answer3;
+        public Button answer4;
+        // поле вопроса
+        public string question;
 
         public Main(string ip, string nick)
         {
@@ -48,11 +60,16 @@ namespace QuizDeluxe
             game = this;
 
             players = new List<string>();
-            players.Add(name);
+
+            question = "";
+
+            table = new Table();
+            table.Load("table\\standart.txt");
 
             client = new Client(Handler);
             client.Connect(ip, PORT);
             client.Send($"connect={name}");
+            client.Send("request_nick=x");
 
             base.Initialize();
         }
@@ -63,6 +80,12 @@ namespace QuizDeluxe
 
             font = Content.Load<SpriteFont>("font");
             background = Content.Load<Texture2D>("background");
+            buttonSprite = Content.Load<Texture2D>("button");
+
+            answer1 = new Button(this, 528, 256, buttonSprite);
+            answer2 = new Button(this, 528, 320, buttonSprite);
+            answer3 = new Button(this, 528, 384, buttonSprite);
+            answer4 = new Button(this, 528, 448, buttonSprite);
         }
 
         protected override void Update(GameTime gameTime)
@@ -88,6 +111,7 @@ namespace QuizDeluxe
             _spriteBatch.Begin();
             _spriteBatch.Draw(background, Vector2.Zero, Color.White);
             _spriteBatch.DrawString(font, playersTable, Vector2.Zero, Color.White);
+            _spriteBatch.DrawString(font, question, new Vector2(528, 64), Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -108,16 +132,19 @@ namespace QuizDeluxe
                 string param = msg[1];
 
                 if (com == "connect")
+                    client.Send("request_nick=x");
+                if(com == "nicknames")
                 {
-                    if(!players.Contains(param))
-                        players.Add(param);
-                    client.Send($"nickname={name}");
-                } 
-                if(com == "nickname")
-                {
-                    if (!players.Contains(param))
-                        players.Add(param);
+                    string[] nicks = param.Split('|');
+                    foreach (string nick in nicks)
+                        if (!players.Contains(nick))
+                            players.Add(nick);
                 }
+                if (com == "disconnect")
+                    players.Remove(param);
+
+                if (players.Contains(""))
+                    players.Remove("");
             }
         }
     }

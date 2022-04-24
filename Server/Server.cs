@@ -9,6 +9,7 @@ namespace Server
 {
     class Server
     {
+        // физическая часть
         private TcpListener server;
         private IPEndPoint endPoint;
         private IPAddress address;
@@ -19,8 +20,6 @@ namespace Server
 
         public bool IsClose { get; private set; }
         public int PacketSize { get; private set; } = 1024;
-
-
 
         public Server(string ip = "127.0.0.1", int port = 28288)
         {
@@ -101,11 +100,11 @@ namespace Server
                 {
                     while (clients[i].DataAvailable)
                     {
-                        "SERVER:RECEIVE".Log();
                         byte[] bytes = new byte[PacketSize];
                         clients[i].Read(bytes, 0, bytes.Length);
 
-                        SendPacket(bytes, i);
+                        string msg = Encoding.UTF8.GetString(bytes);
+                        Handler(msg.Split('\n'), bytes, i);
                     }
                 }
                 if (!IsClose)
@@ -113,7 +112,7 @@ namespace Server
             }
         }
 
-        private void SendPacket(byte[] packet, int id)
+        protected void SendPacket(byte[] packet, int id)
         {
             for (int i = 0; i < clients.Count; i++)
             {
@@ -132,6 +131,31 @@ namespace Server
                 }
                 "SERVER:SEND".Log();
             }
+        }
+
+        protected void SendPacket(string msg, int id)
+        {
+            try
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(msg + '\n');
+                clients[id].Write(bytes, 0, bytes.Length);
+                "SERVER:SEND".Log();
+            }
+            catch (System.IO.IOException e)
+            {
+                if (e != null)
+                {
+                    "SERVER:CLIENT:DISCONNECTED".Log();
+                }
+                "SERVER:SEND:ERROR".Log();
+            }
+        }
+
+
+
+        protected virtual void Handler(string[] data, byte[] source, int sender)
+        {
+            $"SERVER:RECEIVE:{data.Length}:{sender}".Log();
         }
     }
 }
