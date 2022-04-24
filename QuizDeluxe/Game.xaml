@@ -9,7 +9,10 @@
     <Window.Background>
         <ImageBrush ImageSource="gradient_zelenyj_tekstura_131365_1280x720.jpg"/>
     </Window.Background>
-    <Grid>
-        
-    </Grid>
+    <Canvas>
+        <TextBlock FontFamily="Arial Black" FontSize="20" x:Name="Players_TextBlock">
+            <TextBlock.Foreground>
+                <SolidColorBrush Color="White" Opacity="0.75"/>
+            </TextBlock.Foreground>Players:</TextBlock>
+    </Canvas>
 </Window>

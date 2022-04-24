@@ -31,7 +31,7 @@
                 <SolidColorBrush Color="White" Opacity="0.5"/>
             </Button.Background>
         </Button>
-        <TextBox x:Name="IP_TextBox_Copy" HorizontalAlignment="Left" Height="46" Margin="10,11,0,0" TextWrapping="Wrap" Text="NICK" VerticalAlignment="Top" Width="374" FontFamily="Consolas" FontSize="24" BorderThickness="5">
+        <TextBox x:Name="Nick_TextBox" HorizontalAlignment="Left" Height="46" Margin="10,11,0,0" TextWrapping="Wrap" Text="NICK" VerticalAlignment="Top" Width="374" FontFamily="Consolas" FontSize="24" BorderThickness="5">
             <TextBox.BorderBrush>
                 <SolidColorBrush Color="Black" Opacity="0.5"/>
             </TextBox.BorderBrush>

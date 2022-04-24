@@ -25,7 +25,7 @@ namespace QuizDeluxe
             InitializeComponent();
             Connect_Button.Click += (object sender, RoutedEventArgs e) =>
             {
-                new Game(IP_TextBox.Text).Show();
+                new Game(IP_TextBox.Text, Nick_TextBox.Text).Show();
                 this.Close();
             };
         }

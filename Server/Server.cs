@@ -104,7 +104,16 @@ namespace Server
                         "SERVER:RECEIVE".Log();
                         byte[] bytes = new byte[PacketSize];
                         clients[i].Read(bytes, 0, bytes.Length);
+
                         SendPacket(bytes, i);
+
+                        // удаление клиента при его выходе
+                        string msg = Encoding.UTF8.GetString(bytes);
+                        if (msg.Split('\n')[0] == "disconnect")
+                        {
+                            clients.Remove(clients[i]);
+                            break;
+                        }     
                     }
                 }
                 if (!IsClose)

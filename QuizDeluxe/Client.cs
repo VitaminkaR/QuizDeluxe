@@ -50,6 +50,7 @@ namespace QuizDeluxe
 
         public void Disconnect()
         {
+            Send("disconnect");
             handler.Interrupt();
             stream.Close();
             client.Dispose();
