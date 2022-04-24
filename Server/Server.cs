@@ -85,7 +85,7 @@ namespace Server
             }
             catch
             {
-                if(!IsClose)
+                if (!IsClose)
                     "SERVER:ACCEPT_CLIENT:ERROR".Log();
             }
         }
@@ -106,14 +106,6 @@ namespace Server
                         clients[i].Read(bytes, 0, bytes.Length);
 
                         SendPacket(bytes, i);
-
-                        // удаление клиента при его выходе
-                        string msg = Encoding.UTF8.GetString(bytes);
-                        if (msg.Split('\n')[0] == "disconnect")
-                        {
-                            clients.Remove(clients[i]);
-                            break;
-                        }     
                     }
                 }
                 if (!IsClose)
@@ -123,18 +115,22 @@ namespace Server
 
         private void SendPacket(byte[] packet, int id)
         {
-            try
+            for (int i = 0; i < clients.Count; i++)
             {
-                for (int i = 0; i < clients.Count; i++)
+                try
                 {
                     if (i != id)
                         clients[i].Write(packet, 0, packet.Length);
                 }
+                catch (System.IO.IOException e)
+                {
+                    if (e != null)
+                    {
+                        "SERVER:CLIENT:DISCONNECTED".Log();
+                    }
+                    "SERVER:SEND:ERROR".Log();
+                }
                 "SERVER:SEND".Log();
-            }
-            catch
-            {
-                "SERVER:SEND:ERROR".Log();
             }
         }
     }

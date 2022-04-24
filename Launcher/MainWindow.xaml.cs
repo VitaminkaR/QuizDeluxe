@@ -13,21 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace QuizDeluxe
+namespace Launcher
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+
             Connect_Button.Click += (object sender, RoutedEventArgs e) =>
             {
-                new Game(IP_TextBox.Text, Nick_TextBox.Text).Show();
-                this.Close();
+                Close();
+                QuizDeluxe.Program.Main(IP_TextBox.Text, Nick_TextBox.Text);
             };
+            Exit_Button.Click += (object sender, RoutedEventArgs e) => Application.Current.Shutdown();
         }
     }
 }

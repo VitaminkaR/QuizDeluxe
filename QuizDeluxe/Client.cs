@@ -16,7 +16,7 @@ namespace QuizDeluxe
 
         public int PacketSize { get; private set; } = 1024;
 
-        public delegate void Handler(string data);
+        public delegate void Handler(string[] data);
         public Handler HandlerMethod;
 
 
@@ -50,7 +50,7 @@ namespace QuizDeluxe
 
         public void Disconnect()
         {
-            Send("disconnect");
+            Send($"disconnect={Main.game.name}");
             handler.Interrupt();
             stream.Close();
             client.Dispose();
@@ -67,7 +67,7 @@ namespace QuizDeluxe
                     byte[] bytes = new byte[PacketSize];
                     stream.Read(bytes, 0, bytes.Length);
                     string str = Encoding.UTF8.GetString(bytes);
-                    HandlerMethod(str);
+                    HandlerMethod(str.Split('\n'));
 
                     "CLIENT:RECEIVE".Log();
                 }
