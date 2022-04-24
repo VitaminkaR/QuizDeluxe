@@ -49,6 +49,11 @@ namespace Server
 
                 if (command == "step")
                     server.step.Log();
+
+                if(command == "help")
+                {
+                    "\n[HELP]\nexit - stop server\nstart - start game\nplayers - show clients(nicknames)\ntable - show questions\nstep - show sped player".Log();
+                }
             }
             Console.ReadKey();
         }

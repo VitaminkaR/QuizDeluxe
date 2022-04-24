@@ -87,6 +87,15 @@ namespace Server
 
         public void SetQues()
         {
+            if(table.Questions.Count == 0)
+            {
+                "GAME OVER".Log();
+                SendPacket("game=over");
+                SendPacket("q=GAME OVER --------------------- WINNER:|-|-|-|-");
+                return;
+            }
+
+
             List<string> x = table.Get().Split('|').ToList<string>();
             string q = "q=" + x[0] + '|';
             answer = x[1];

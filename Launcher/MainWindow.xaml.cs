@@ -23,6 +23,7 @@ namespace Launcher
         public MainWindow()
         {
             InitializeComponent();
+            Nick_TextBox.Text = "Player#" + new Random().Next(1000, 10000);
 
             Connect_Button.Click += (object sender, RoutedEventArgs e) =>
             {
