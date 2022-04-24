@@ -25,11 +25,11 @@ namespace Server
         }
 
         // возвращает массив с вопросом и ответами
-        public string[] Get()
+        public string Get()
         {
             Random rand = new Random();
             int i = rand.Next(0, Questions.Count);
-            return Questions[i].Split('|');
+            return Questions[i];
         }
     }
 }

@@ -29,6 +29,23 @@ namespace Server
                     server.Stop();
                     break;
                 }
+
+                if (command == "start")
+                    server.StartGame();
+
+                if(command == "players")
+                {
+                    "\n[PLAYERS]".Log();
+                    foreach (string player in server.players)
+                        (player).Log();
+                }
+
+                if (command == "table")
+                {
+                    "\n[Table]".Log();
+                    foreach (string ques in server.table.Questions)
+                        ques.Log();
+                }
             }
             Console.ReadKey();
         }

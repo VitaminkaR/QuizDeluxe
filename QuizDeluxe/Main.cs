@@ -140,6 +140,14 @@ namespace QuizDeluxe
 
                 if (players.Contains(""))
                     players.Remove("");
+
+
+
+                if(com == "q")
+                {
+                    string[] a = param.Split('|');
+                    question = a[0];
+                }
             }
         }
     }

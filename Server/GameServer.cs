@@ -9,6 +9,8 @@ namespace Server
         public List<string> players;
         // таблица вопросов
         public Table table;
+        // правильный ответ
+        public string answer;
 
 
 
@@ -17,8 +19,6 @@ namespace Server
         {
             players = new List<string>();
             table = new Table();
-            table.Load("table\\standart.txt");
-            "table load".Log();
         }
 
 
@@ -54,6 +54,25 @@ namespace Server
             }
 
             base.Handler(data, source, sender);
+        }
+
+
+
+        public void StartGame()
+        {
+            "SERVER:GAME:STARTED".Log();
+
+            table.Load("table\\standart.txt");
+            "SERVER:TABLE:LOAD".Log();
+
+            SetQues();
+        }
+
+        public void SetQues()
+        {
+            string q = "q=" + table.Get();
+            answer = q.Split('|')[1];
+            SendPacket(q);
         }
     }
 }

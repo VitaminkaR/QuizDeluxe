@@ -151,6 +151,27 @@ namespace Server
             }
         }
 
+        protected void SendPacket(string msg)
+        {
+            for (int i = 0; i < clients.Count; i++)
+            {
+                try
+                {
+                    byte[] bytes = Encoding.UTF8.GetBytes(msg + '\n');
+                    clients[i].Write(bytes, 0, bytes.Length);
+                }
+                catch (System.IO.IOException e)
+                {
+                    if (e != null)
+                    {
+                        "SERVER:CLIENT:DISCONNECTED".Log();
+                    }
+                    "SERVER:SEND:ERROR".Log();
+                }
+                "SERVER:SEND".Log();
+            }
+        }
+
 
 
         protected virtual void Handler(string[] data, byte[] source, int sender)
