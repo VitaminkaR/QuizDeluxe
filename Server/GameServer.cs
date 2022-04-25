@@ -9,7 +9,7 @@ namespace Server
     {
         // игровая часть
         // ники игроков
-        public List<string> players;
+        public List<Player> players;
         // таблица вопросов
         public Table table;
         // правильный ответ
@@ -25,7 +25,7 @@ namespace Server
 
         public GameServer(string ip = "127.0.0.1", int port = 28288) : base(ip, port)
         {
-            players = new List<string>();
+            players = new List<Player>();
             table = new Table();
         }
 
@@ -43,20 +43,21 @@ namespace Server
 
                 if (com == "connect")
                 {
-                    if (!players.Contains(param))
-                        players.Add(param);
+                    players.Add(new Player(param));
                     SendPacket(source, sender);
                 }
                 if(com == "request_nick")
                 {
                     string request = "nicknames=";
-                    foreach (string nick in players)
-                        request += nick + '|';
+                    foreach (Player player in players)
+                        request += player.name + '|';
                     SendPacket(request, sender);
                 }
                 if(com == "disconnect")
                 {
-                    players.Remove(param);
+                    for (int j = 0; j < players.Count; j++)
+                        if (players[i].name == param)
+                            players.Remove(players[i]);
                     SendPacket(source, sender);
                 }
                 if(com == "ans")
@@ -64,6 +65,9 @@ namespace Server
                     if(param == answer)
                     {
                         SendPacket("check=true");
+                        for (int j = 0; j < players.Count; j++)
+                            if (players[i].name == step)
+                                players[i].score += 1;
                     }
                     else
                         SendPacket("check=false");
@@ -81,6 +85,7 @@ namespace Server
         {
             "SERVER:GAME:STARTED".Log();
 
+            table = new Table();
             table.Load($"table\\{tableName}.txt");
             "SERVER:TABLE:LOAD".Log();
 
@@ -93,7 +98,21 @@ namespace Server
             {
                 "GAME OVER".Log();
                 SendPacket("game=over");
-                SendPacket("q=GAME OVER --------------------- WINNER:|-|-|-|-");
+
+                string winner = "";
+                int max = 0;
+                foreach (Player player in players)
+                {
+                    if(player.score > max)
+                    {
+                        max = player.score;
+                        winner = player.name;
+                    }
+                }
+
+                SendPacket($"q=GAME OVER --------------------- WINNER:{winner}|-|-|-|-");
+
+                step = "";
                 return;
             }
 
@@ -111,7 +130,7 @@ namespace Server
             
             SendPacket(q);
             Thread.Sleep(100);
-            step = players[stepIndex];
+            step = players[stepIndex].name;
             stepIndex += 1;
             if (stepIndex == players.Count)
                 stepIndex = 0;

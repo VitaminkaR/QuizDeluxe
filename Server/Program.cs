@@ -37,8 +37,8 @@ namespace Server
                 if(command == "players")
                 {
                     "\n[PLAYERS]".Log(ConsoleColor.White);
-                    foreach (string player in server.players)
-                        (player).Log(ConsoleColor.White);
+                    foreach (Player player in server.players)
+                        (player.name + " " + player.score).Log(ConsoleColor.White);
                 }
 
                 if (command == "table")
