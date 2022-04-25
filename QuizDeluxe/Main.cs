@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using QuizDeluxe.UI;
 using System.Collections.Generic;
+using System.Media;
 
 namespace QuizDeluxe
 {
@@ -36,6 +37,9 @@ namespace QuizDeluxe
         // никнейм хода
         public string step;
 
+        // звук
+        private SoundPlayer player;
+
         public Main(string ip, string nick)
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -60,6 +64,8 @@ namespace QuizDeluxe
 
             question = "";
             answers = new Button[4];
+
+            player = new SoundPlayer();
 
             client = new Client(Handler);
             client.Connect(ip, PORT);
@@ -120,6 +126,22 @@ namespace QuizDeluxe
         }
 
 
+        // звук
+        private void PlayTrue()
+        {
+            player.SoundLocation = "Content\\true.wav";
+            player.Load();
+            player.Play();
+        }
+
+        // звук
+        private void PlayFalse()
+        {
+            player.SoundLocation = "Content\\false.wav";
+            player.Load();
+            player.Play();
+        }
+
 
         //обработчик
         private void Handler(string[] data)
@@ -170,7 +192,10 @@ namespace QuizDeluxe
 
                 if (com == "check")
                 {
-                    "true".Log();
+                    if (param == "true")
+                        PlayTrue();
+                    else
+                        PlayFalse();
                 }
             }
         }
