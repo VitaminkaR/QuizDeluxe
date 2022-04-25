@@ -38,7 +38,7 @@ namespace Server
             }
             catch
             {
-                "SERVER:CREATE:ERROR".Log();
+                "SERVER:CREATE:ERROR".Log(ConsoleColor.Red);
             }
         }
 
@@ -59,7 +59,7 @@ namespace Server
             }
             catch
             {
-                "SERVER:START:ERROR".Log();
+                "SERVER:START:ERROR".Log(ConsoleColor.Red);
                 return false;
             }
         }
@@ -70,7 +70,7 @@ namespace Server
             server.Server.Close();
             IsClose = true;
 
-            "SERVER:STOP".Log();
+            "SERVER:STOP".Log(ConsoleColor.Red);
         }
 
         private void AcceptClient(IAsyncResult result)
@@ -85,7 +85,7 @@ namespace Server
             catch
             {
                 if (!IsClose)
-                    "SERVER:ACCEPT_CLIENT:ERROR".Log();
+                    "SERVER:ACCEPT_CLIENT:ERROR".Log(ConsoleColor.Red);
             }
         }
 
@@ -127,7 +127,7 @@ namespace Server
                     {
                         "SERVER:CLIENT:DISCONNECTED".Log();
                     }
-                    "SERVER:SEND:ERROR".Log();
+                    "SERVER:SEND:ERROR".Log(ConsoleColor.Red);
                 }
                 "SERVER:SEND".Log();
             }
@@ -147,7 +147,7 @@ namespace Server
                 {
                     "SERVER:CLIENT:DISCONNECTED".Log();
                 }
-                "SERVER:SEND:ERROR".Log();
+                "SERVER:SEND:ERROR".Log(ConsoleColor.Red);
             }
         }
 
@@ -166,7 +166,7 @@ namespace Server
                     {
                         "SERVER:CLIENT:DISCONNECTED".Log();
                     }
-                    "SERVER:SEND:ERROR".Log();
+                    "SERVER:SEND:ERROR".Log(ConsoleColor.Red);
                 }
                 "SERVER:SEND".Log();
             }

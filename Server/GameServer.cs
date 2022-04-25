@@ -17,6 +17,8 @@ namespace Server
         // никнейм игрока, который ходит
         public string step;
         public int stepIndex;
+        // название таблицы
+        public string tableName = "standart";
 
 
 
@@ -79,7 +81,7 @@ namespace Server
         {
             "SERVER:GAME:STARTED".Log();
 
-            table.Load("table\\standart.txt");
+            table.Load($"table\\{tableName}.txt");
             "SERVER:TABLE:LOAD".Log();
 
             SetQues();

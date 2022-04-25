@@ -13,6 +13,7 @@ namespace Server
         [STAThread]
         static private void Main()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             string _ip = Console.ReadLine();
             if (_ip == "") _ip = "127.0.0.1";
             server = new GameServer(_ip);
@@ -35,24 +36,30 @@ namespace Server
 
                 if(command == "players")
                 {
-                    "\n[PLAYERS]".Log();
+                    "\n[PLAYERS]".Log(ConsoleColor.White);
                     foreach (string player in server.players)
-                        (player).Log();
+                        (player).Log(ConsoleColor.White);
                 }
 
                 if (command == "table")
                 {
-                    "\n[Table]".Log();
+                    "\n[Table]".Log(ConsoleColor.White);
                     foreach (string ques in server.table.Questions)
-                        ques.Log();
+                        ques.Log(ConsoleColor.White);
                 }
 
                 if (command == "step")
-                    server.step.Log();
+                    server.step.Log(ConsoleColor.White);
 
-                if(command == "help")
+                if (command == "set")
                 {
-                    "\n[HELP]\nexit - stop server\nstart - start game\nplayers - show clients(nicknames)\ntable - show questions\nstep - show sped player".Log();
+                    server.tableName = Console.ReadLine();
+                    $"set \"{server.tableName}\" table".Log(ConsoleColor.White);
+                }
+
+                if (command == "help")
+                {
+                    "\n[HELP]\nexit - stop server\nstart - start game\nplayers - show clients(nicknames)\ntable - show questions\nstep - show sped player\nset - set the table".Log(ConsoleColor.White);
                 }
             }
             Console.ReadKey();
